@@ -14,7 +14,16 @@ public class Attaque extends Bataille {
 		case CREVAISON : return "Crevaison";
 		case ESSENCE : return "Panne d'essence";
 		case FEU : return "FeuRouge";
+		default : return "";
 		}
-		return null;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Attaque ) {
+			Attaque objetAttaque = (Attaque) o;
+			return objetAttaque.getType().equals(getType());
+		}
+		return false;
+	} 
 }

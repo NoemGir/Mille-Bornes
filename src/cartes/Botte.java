@@ -13,6 +13,16 @@ public class Botte extends Probleme {
 		case CREVAISON : return "Increvable";
 		case ESSENCE : return "Citerne d'essence";
 		case FEU : return "Vehicule Prioritaire";
+		default : return "";
 		}
-		return null;	}
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Botte) {
+			Botte objetBotte = (Botte) o;
+			return objetBotte.getType().equals(getType());
+		}
+		return false;
+	} 
 }

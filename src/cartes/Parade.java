@@ -13,7 +13,16 @@ public class Parade extends Bataille {
 		case CREVAISON : return "Roue de secours";
 		case ESSENCE : return "Essence";
 		case FEU : return "FeuVert";
+		default : return "";
 		}
-		return null;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Parade) {
+			Parade objetParade = (Parade) o;
+			return objetParade.getType().equals(getType());
+		}
+		return false;
+	} 
 }
