@@ -3,25 +3,26 @@ package cartes;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.Utils;
+
 public class JeuDeCarte {
 	
-		private Carte[] typesDeCartes = {new Botte(1, Type.FEU), new Botte(1, Type.ESSENCE), new Botte(1, Type.CREVAISON), new Botte(1, Type.ACCIDENT),
-				new Attaque(5, Type.FEU), new DebutLimite(4), new Attaque(3, Type.ESSENCE), new Attaque(3, Type.CREVAISON), new Attaque(3, Type.ACCIDENT),
-				new Parade(14, Type.FEU), new FinLimite(6), new Parade(6, Type.ESSENCE), new Parade(6, Type.CREVAISON), new Parade(6, Type.ACCIDENT),
-				new Borne(10, 25), new Borne(10, 50), new Borne(10, 75), new Borne(12, 100), new Borne(4, 200)};
+	 	private Carte[] typesDeCartes;
 
 		private List<Carte> listeCartes;
 		
 		
 		
-		public JeuDeCarte() {
-			listeCartes = new ArrayList<Carte>();
+		public JeuDeCarte(Carte[] typesDeCartes) {
+			this.typesDeCartes = typesDeCartes;
+			List<Carte> listeCartesOrdre = new ArrayList<Carte>();
 			for(int i = 0;  i < typesDeCartes.length; i++) {
 				Carte carte = typesDeCartes[i];
 				for(int j = 0; j < carte.getNombre(); j++ ) {
-					listeCartes.add(carte);
+					listeCartesOrdre.add(carte);
 				}
 			}
+			listeCartes = new ArrayList<Carte>(Utils.melanger(listeCartesOrdre));
 		}
 
 		public Carte[] getTypesDeCartes() {

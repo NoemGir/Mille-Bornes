@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
-import cartes.Carte;
+import java.util.ListIterator;
 
 public class Utils {
 	
@@ -46,12 +45,37 @@ public class Utils {
 	public static <T> List<T> rassembler(List<T> listeInitiale){
 		List<T> listeFinale = new ArrayList<>();
 		for ( T elt : listeInitiale) {
-			if (!listeFinale.contains(elt))
-			for (int j = 1; j < Collections.frequency(listeInitiale, elt); j++) {
-				listeFinale.add(elt);
+			if (!listeFinale.contains(elt)) {
+				for (int j = 0; j < Collections.frequency(listeInitiale, elt); j++) {
+					listeFinale.add(elt);
+				}
 			}
 		}
 		return listeFinale;
+	}
+	
+	public static <T> boolean verifierRassemblement(List<T> liste){
+		ListIterator<T> itListe = liste.listIterator();
+		if(itListe.hasNext()) {
+			T elt = itListe.next();
+			if (itListe.hasNext()) {
+				T next = itListe.next();
+				for (; itListe.hasNext(); ){
+					for(; next == elt && itListe.hasNext();) {
+						next = itListe.next();
+					}
+						
+					for ( ListIterator<T> itFin = liste.listIterator(liste.size()); itFin.previousIndex() != itListe.previousIndex();) {
+						if (itFin.previous().equals(elt)) {
+							return false;
+						}
+					}
+					elt = next;
+				}
+			}
+			
+		}
+		return true;	
 	}
 	
 	
