@@ -135,6 +135,4 @@ public class JeuDeCarte {
 			 comptBorne200 == 4;
 		}	
 		
-
-
 }

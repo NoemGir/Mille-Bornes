@@ -19,8 +19,18 @@ import utils.Utils;
 
 public class test {
 	public static void main(String[] args) {
-
-		/* TP2 */
+		
+		
+		/* TP3 */
+		
+		miaou
+		
+		
+		
+		
+		
+		/*
+		/* TP2 
 		Attaque attaque1 = new Attaque(3, Type.ACCIDENT);
 		Attaque attaque2 = new Attaque(7, Type.ACCIDENT);
 		Attaque attaque3 = new Attaque(9, Type.FEU);
@@ -52,7 +62,7 @@ public class test {
 		
 		System.out.println("\n-- Test Classe Utils -- \n");
 		
-		System.out.println("La liste mélangée : \n");
+		System.out.println("La liste melangee : \n");
 		
 		List<Carte> listeInitiale = new ArrayList <Carte>(jeu.getListeCartes());
 		
@@ -107,7 +117,7 @@ public class test {
 		System.out.println(" Verification cartes jeu melange : " + jeu.checkCount());
 
         
-		/*	TP1 
+			TP1 
 		Attaque attaque = new Attaque(3, Type.ACCIDENT);
 		Parade parade = new Parade(3, Type.ACCIDENT);
 		Botte botte = new Botte(1, Type.ACCIDENT);
