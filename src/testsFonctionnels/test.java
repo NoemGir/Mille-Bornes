@@ -1,9 +1,8 @@
 package testsFonctionnels;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import cartes.Attaque;
 import cartes.Borne;
@@ -11,24 +10,127 @@ import cartes.Botte;
 import cartes.Carte;
 import cartes.DebutLimite;
 import cartes.FinLimite;
-import cartes.JeuDeCarte;
+import cartes.Limite;
 import cartes.Parade;
 import cartes.Type;
-import jeu.Sabot;
-import utils.Utils;
+import jeu.Joueur;
 
 public class test {
 	public static void main(String[] args) {
 		
 		
 		/* TP3 */
+		System.out.println("--TEST getKM()--");
 		
-		miaou
+		boolean erreur = false;
+		Joueur albert = new Joueur("Albert");
+		List<Carte> sabot = new ArrayList<>();
+		sabot.add(new Borne(10, 25));
+		sabot.add(new Borne(10, 50));
+		sabot.add(new Attaque(5, Type.ACCIDENT));
+		sabot.add(new Borne(10, 75));
+		sabot.add(new Borne(12, 100));
+		sabot.add(new Borne(14, 200));
+		int kilomettrage_attendu = 0;
+		while(!sabot.isEmpty()) {
+			
+			Carte carte = albert.prendreCarte(sabot);
+			albert.jouer(carte);
+
+			if (carte instanceof Borne) {
+				kilomettrage_attendu += ((Borne) carte).getKm();
+
+			}
+
+			if(kilomettrage_attendu != albert.getKM()) {
+				System.out.println("Erreur de kilomettrage ! attendu = " + kilomettrage_attendu + " recu = " + albert.getKM());
+				erreur = true;
+			}
+		}
 		
+		if(erreur) {
+			System.out.println("\nTest terminé ! resultat : ECHEC");
+		}
+		else {
+			System.out.println("\nTest terminé ! resultat : SUCCESS");
+		}
+		erreur = false;
 		
+		System.out.println("\n--TEST getLimite()--");
 		
+		if(albert.getLimite() != 200) {
+			System.out.println("Erreur de limite lorsque pileLimite vide");
+			erreur = true;
+
+		}
+		albert.jouer(new DebutLimite(1));
 		
+		if(albert.getLimite() != 50) {
+			System.out.println("Erreur de limite lorsque haut pileLimite = DebutLimite");
+			erreur = true;
+
+		}
+		albert.jouer(new FinLimite(1));
 		
+		if(albert.getLimite() != 200) {
+			System.out.println("Erreur de limite lorsque haut pileLimite = FinLimite");
+			erreur = true;
+
+		}
+		
+		albert.jouer(new DebutLimite(1));
+		albert.jouer(new Botte(1, Type.FEU));
+		
+
+		if(albert.getLimite() != 200) {
+			System.out.println("Erreur de limite lorsque prioritaire");
+			erreur = true;
+		}
+		
+		if(erreur) {
+			System.out.println("\nTest terminé ! resultat : ECHEC");
+		}
+		else {
+			System.out.println("\nTest terminé ! resultat : SUCCESS");
+		}
+		
+		System.out.println("\n--TEST getLimite()--");
+		
+		Joueur rene = new Joueur("René");
+		
+		rene.jouer(new Attaque(1, Type.FEU));
+		
+		System.out.println(rene.estBloque());
+		
+		rene.jouer(new Botte(1, Type.FEU));
+
+		System.out.println(rene.estBloque());
+
+		rene.jouer(new Attaque(1, Type.ACCIDENT));
+		
+		System.out.println(rene.estBloque());
+
+		rene.jouer(new Botte(1, Type.ACCIDENT));
+
+		System.out.println(rene.estBloque());
+		
+		rene.jouer(new Attaque(1, Type.ESSENCE));
+		
+		System.out.println(rene.estBloque());
+
+		rene.jouer(new Botte(1, Type.ESSENCE));
+
+		System.out.println(rene.estBloque());
+		
+		Set<Botte> bottes = rene.getBottes();
+		bottes.clear();
+
+		System.out.println(rene.estBloque());
+
+		rene.jouer(new Parade(1, Type.FEU));
+
+		System.out.println(rene.estBloque());
+
 		/*
 		/* TP2 
 		Attaque attaque1 = new Attaque(3, Type.ACCIDENT);

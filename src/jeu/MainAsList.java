@@ -1,5 +1,6 @@
 package jeu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cartes.Carte;
@@ -9,8 +10,8 @@ public class MainAsList implements Main {
 	List<Carte> main;
 	
 
-	public MainAsList(List<Carte> main) {
-		this.main = main;
+	public MainAsList() {
+		main = new ArrayList<>();
 	}
 
 	@Override
@@ -20,6 +21,8 @@ public class MainAsList implements Main {
 
 	@Override
 	public void jouer(Carte carte) {
+		assert(main.contains(carte));
 		main.remove(carte);
+		
 	}
 }
