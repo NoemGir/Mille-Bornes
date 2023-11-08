@@ -3,6 +3,7 @@ package jeu;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -71,7 +72,7 @@ public class Joueur {
 	} 
 	
 	public int getLimite() {
-		if(pileLimite.isEmpty() || pileLimite.get(pileLimite.size()-1).equals(new FinLimite(1))) {
+		if(pileLimite.isEmpty() || pileLimite.get(pileLimite.size()-1) instanceof FinLimite) {
 			return 200;
 		}
 		for (Botte botte : bottes) {
@@ -116,12 +117,9 @@ public class Joueur {
 	    return !protege_botte;
 	}
 	
-	
 	public MainAsList getMain() {
 		return main;
 	}
-
-
 
 	@Override
 	public boolean equals(Object o) {
@@ -133,6 +131,32 @@ public class Joueur {
 		return nom;
 	}
 
+	public HashSet<Coup> coupsPossibles(List<Joueur> participants) {
+		HashSet<Coup> coupsPossibles = new HashSet<>();
+		for(Joueur participant : participants) {
+			Iterator<Carte> it = main.iterateur();
+			for(;it.hasNext();) {
+				Coup coupPotentiel = new Coup(it.next(), participant);
+				if(coupPotentiel.estValide(this)) {
+					coupsPossibles.add(coupPotentiel);
+				}
+			}
+		}
+		return coupsPossibles;
+	}
+	
+	public HashSet<Coup> coupsParDefault(){
+		HashSet<Coup> coupsDefaults= new HashSet<>();
+		Iterator<Carte> it = main.iterateur();
+		for(;it.hasNext();) {
+			Carte carte = it.next();
+			if(carte instanceof Parade || carte instanceof Botte || carte instanceof Borne) {
+				Coup coup = new Coup(carte, null);
+				coupsDefaults.add(coup);
+			}
+		}
+		return coupsDefaults;
+	}
 	
 	
 	public List<Limite> getPileLimite() {
@@ -147,7 +171,23 @@ public class Joueur {
 	public Set<Botte> getBottes() {
 		return bottes;
 	}
-	
 
+	public void setPileLimite(List<Limite> pileLimite) {
+		this.pileLimite = pileLimite;
+	}
+
+	public void setPileBataille(List<Bataille> pileBataille) {
+		this.pileBataille = pileBataille;
+	}
+
+	public void setCollecBorne(List<Borne> collecBorne) {
+		this.collecBorne = collecBorne;
+	}
+
+	public void setBottes(Set<Botte> bottes) {
+		this.bottes = bottes;
+	}
+	
+	
 
 }

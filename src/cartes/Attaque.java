@@ -1,10 +1,15 @@
 package cartes;
 
+import java.util.List;
+import java.util.Set;
+
+import jeu.Joueur;
+
 public class Attaque extends Bataille {
 
 
-	public Attaque(int nombre, Type accident) {
-		super(nombre, accident);
+	public Attaque(int nombre, Type type) {
+		super(nombre, type);
 	}
 
 	@Override
@@ -26,4 +31,16 @@ public class Attaque extends Bataille {
 		}
 		return false;
 	} 
+	
+	@Override
+	public boolean appliquer(Joueur j) {
+		Set<Botte> bottes = j.getBottes();
+		if (bottes.contains(new Botte(1,this.getType()))) {
+			return false;
+		}
+		List<Bataille> listeBataille = j.getPileBataille();
+		listeBataille.add(this);
+		return true;
+	}
+
 }

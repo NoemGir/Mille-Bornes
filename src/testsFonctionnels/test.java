@@ -10,7 +10,6 @@ import cartes.Botte;
 import cartes.Carte;
 import cartes.DebutLimite;
 import cartes.FinLimite;
-import cartes.Limite;
 import cartes.Parade;
 import cartes.Type;
 import jeu.Joueur;

@@ -1,4 +1,6 @@
 package cartes;
+import java.util.Set;
+
 
 public abstract class Bataille extends Probleme {
 

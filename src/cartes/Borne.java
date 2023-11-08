@@ -1,5 +1,10 @@
 package cartes;
 
+import java.util.List;
+import java.util.Set;
+
+import jeu.Joueur;
+
 public class Borne extends Carte {
 private int km;
 
@@ -36,5 +41,16 @@ private int km;
 		return false;
 	} 
 
+	@Override
+	public boolean appliquer(Joueur j) {
+		Set<Botte> bottes = j.getBottes();
+		List<Limite> limites = j.getPileLimite();
+		if (bottes.contains(new Botte(1,this.getType()))) {
+			return false;
+		}
+		List<Bataille> listeBataille = j.getPileBataille();
+		listeBataille.add(this);
+		return true;
+	}
 
 }

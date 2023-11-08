@@ -7,7 +7,7 @@ import cartes.Carte;
 
 public interface Main{
 	
-	public static final Iterator<Carte> it = null;
+    Iterator<Carte> iterateur();
 	
 	void prendre(Carte carte);
 	
