@@ -35,10 +35,18 @@ public class Parade extends Bataille {
 	public boolean appliquer(Joueur j) {
 		List<Bataille> listeBataille = j.getPileBataille();
 		Set<Botte> bottes = j.getBottes();
-		Bataille top = listeBataille.get(listeBataille.size());
-		if (top instanceof Attaque && top.getType().equals(this.getType()) && !bottes.contains(new Botte(1,this.getType()))) {
-			listeBataille.add(this);
-			return true;
+		if(!bottes.contains(new Botte(1,this.getType()))){
+			if(listeBataille.isEmpty()) {
+				listeBataille.add(this);
+				return true;
+			}
+			else {
+				Bataille top = listeBataille.get(listeBataille.size()-1);
+				if (top.equals(new Attaque(1, this.getType()))) {
+					listeBataille.add(this);
+					return true;
+				}
+			}
 		}
 		return false;
 	}

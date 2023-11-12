@@ -1,5 +1,10 @@
 package cartes;
 
+import java.util.List;
+import java.util.Set;
+
+import jeu.Joueur;
+
 public class Botte extends Probleme {
 
 	public Botte(int nombre, Type type) {
@@ -25,4 +30,25 @@ public class Botte extends Probleme {
 		}
 		return false;
 	} 
+	
+	@Override
+	public int hashCode() {
+			return getType().hashCode();
+	} 
+
+
+	@Override
+	public boolean appliquer(Joueur j) {
+		
+		List<Bataille> listeBataille = j.getPileBataille();
+		j.getBottes().add(this);
+		/*
+		if(!listeBataille.isEmpty()) {
+			Bataille top = listeBataille.get(listeBataille.size()-1);
+			if (top.equals(new Attaque(1, this.getType()))) {
+				listeBataille.remove(listeBataille.size()-1);
+			}		
+		} */
+		return true;
+	}
 }

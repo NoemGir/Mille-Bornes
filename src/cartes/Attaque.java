@@ -38,8 +38,7 @@ public class Attaque extends Bataille {
 		if (bottes.contains(new Botte(1,this.getType()))) {
 			return false;
 		}
-		List<Bataille> listeBataille = j.getPileBataille();
-		listeBataille.add(this);
+		j.getPileBataille().add(this);
 		return true;
 	}
 

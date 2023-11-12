@@ -28,6 +28,23 @@ public class Coup {
 		else return true;
 	}
 	
+	public boolean jouer(Joueur j) {
+		boolean possible = false;
+		
+		if(cible == null) {
+			j.getJeu().getSabot().add(carte);
+			possible = true;
+			System.out.println("le joueur " + j + "repose la carte : " + carte + "dans le sabot");
+		}
+		possible = possible || carte.appliquer(cible);
+		
+		if (possible) {
+			j.getMain().jouer(carte);
+			System.out.println("le joueur " + j + "joue la carte : " + carte + " sur la cible " + cible);
+		}
+		return possible;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Coup) {
@@ -41,4 +58,6 @@ public class Coup {
 	public int hashCode() {
 		return carte.hashCode() + cible.hashCode();
 	}
+	
+	
 }

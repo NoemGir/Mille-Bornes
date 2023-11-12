@@ -11,14 +11,39 @@ import cartes.Carte;
 import cartes.DebutLimite;
 import cartes.FinLimite;
 import cartes.Parade;
+import cartes.Probleme;
 import cartes.Type;
 import jeu.Joueur;
 
 public class test {
 	public static void main(String[] args) {
 		
+		/* TP4 */
 		
-		/* TP3 */
+		Joueur j = new Joueur("J");
+		Carte c1 = new Parade(0,Type.FEU);
+		System.out.println("appliquer "+c1+":"+c1.appliquer(j));
+		System.out.println("appliquer "+c1+":"+c1.appliquer(j));
+		Carte c2 = new Attaque(0,Type.FEU);
+		System.out.println("appliquer "+c2+":"+c2.appliquer(j));
+		Carte c3 = new Borne(0,100);
+		System.out.println("appliquer "+c3+":"+c3.appliquer(j));
+		Carte c4 = new Botte(0,Type.FEU);
+		System.out.println("appliquer "+c4+":"+c4.appliquer(j));
+		System.out.println("appliquer "+c3+":"+c3.appliquer(j));
+		System.out.println("appliquer "+c3+":"+c3.appliquer(j));
+		Carte c5 = new DebutLimite(0);
+		System.out.println("appliquer "+c5+":"+c5.appliquer(j));
+		Carte c6 = new Attaque(0,Type.ESSENCE);
+		System.out.println("appliquer "+c6+":"+c6.appliquer(j));
+		System.out.println("appliquer "+c3+":"+c3.appliquer(j));
+		Carte c7 = new Parade(0,Type.ACCIDENT);
+		System.out.println("appliquer "+c7+":"+c7.appliquer(j));
+		Carte c8 = new Parade(0,Type.ESSENCE);
+		System.out.println("appliquer "+c8+":"+c8.appliquer(j));
+		
+		
+		/* TP3 
 		System.out.println("--TEST getKM()--");
 		
 		boolean erreur = false;
@@ -130,7 +155,7 @@ public class test {
 
 		System.out.println(rene.estBloque());
 
-		/*
+		
 		/* TP2 
 		Attaque attaque1 = new Attaque(3, Type.ACCIDENT);
 		Attaque attaque2 = new Attaque(7, Type.ACCIDENT);

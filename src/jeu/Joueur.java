@@ -24,6 +24,7 @@ public class Joueur {
 	private List<Borne> collecBorne;
 	private Set<Botte> bottes;
 	private MainAsList main;
+	private Jeu jeu;
 	
 	
 	public Joueur(String nom) {
@@ -87,12 +88,8 @@ public class Joueur {
 		boolean prioritaire = false;
 		boolean protege_botte = false;
 
-		for (Botte botte : bottes) {
-			if(botte.equals(new Botte(1, Type.FEU))){
-				prioritaire = true;
-			}
-		}
-		
+		prioritaire = bottes.contains(new Botte(1, Type.FEU));
+
 		Bataille sommetBataille = pileBataille.get(pileBataille.size()-1);
 	    if(sommetBataille.equals(new Parade(1, Type.FEU))) {
 			return false;
@@ -109,11 +106,8 @@ public class Joueur {
 				return false;
 			}
 		}
-	    for (Botte botte : bottes) {
-			if(botte.getType().equals(sommetBataille.getType())){
-				protege_botte = true;
-			}
-		}
+		protege_botte = bottes.contains(new Botte(0, sommetBataille.getType()));
+
 	    return !protege_botte;
 	}
 	
@@ -127,12 +121,17 @@ public class Joueur {
 	}
 	
 	@Override
+	public int hashCode() {
+		return nom.hashCode();
+	}
+	
+	@Override
 	public String toString() {
 		return nom;
 	}
 
-	public HashSet<Coup> coupsPossibles(List<Joueur> participants) {
-		HashSet<Coup> coupsPossibles = new HashSet<>();
+	public Set<Coup> coupsPossibles(Set<Joueur> participants) {
+		Set<Coup> coupsPossibles = new HashSet<>();
 		for(Joueur participant : participants) {
 			Iterator<Carte> it = main.iterateur();
 			for(;it.hasNext();) {
@@ -145,8 +144,8 @@ public class Joueur {
 		return coupsPossibles;
 	}
 	
-	public HashSet<Coup> coupsParDefault(){
-		HashSet<Coup> coupsDefaults= new HashSet<>();
+	public Set<Coup> coupsParDefault(){
+		Set<Coup> coupsDefaults= new HashSet<>();
 		Iterator<Carte> it = main.iterateur();
 		for(;it.hasNext();) {
 			Carte carte = it.next();
@@ -158,6 +157,25 @@ public class Joueur {
 		return coupsDefaults;
 	}
 	
+	public Coup selectionner() {
+		Set<Coup> coupsPossibles = coupsPossibles(jeu.getJoueurs());
+		for(Coup coup : coupsPossibles) {
+			if (coup.jouer(this)) {
+				return coup;
+			}
+		}
+		return null;
+	}
+	
+	public Coup rendreCarte() {
+		Set<Coup> coupsdefaults = coupsParDefault();
+		for(Coup coup : coupsdefaults) {
+			if (coup.jouer(this)) {
+				return coup;
+			}
+		}
+		return null;
+	}
 	
 	public List<Limite> getPileLimite() {
 		return pileLimite;
@@ -186,6 +204,14 @@ public class Joueur {
 
 	public void setBottes(Set<Botte> bottes) {
 		this.bottes = bottes;
+	}
+
+	public Jeu getJeu() {
+		return jeu;
+	}
+
+	public void setJeu(Jeu jeu) {
+		this.jeu = jeu;
 	}
 	
 	

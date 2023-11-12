@@ -43,14 +43,20 @@ private int km;
 
 	@Override
 	public boolean appliquer(Joueur j) {
-		Set<Botte> bottes = j.getBottes();
 		List<Limite> limites = j.getPileLimite();
-		if (bottes.contains(new Botte(1,this.getType()))) {
-			return false;
+		
+		if(!j.estBloque() && j.getKM()+ km <= 1000){
+			if(limites.isEmpty()) {
+				j.getCollecBorne().add(this);
+				return true;
+			}
+			Limite sommetLimite = limites.get(limites.size()-1);
+			if (sommetLimite instanceof DebutLimite) {
+				j.getCollecBorne().add(this);
+				return true;
+			}		
 		}
-		List<Bataille> listeBataille = j.getPileBataille();
-		listeBataille.add(this);
-		return true;
+		return false;
 	}
 
 }
