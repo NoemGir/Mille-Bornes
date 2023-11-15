@@ -1,5 +1,8 @@
 package cartes;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Probleme extends Carte {
 	
 	private Type type;
@@ -12,4 +15,5 @@ public abstract class Probleme extends Carte {
 	public Type getType() {
 		return type;
 	}
+	
 }

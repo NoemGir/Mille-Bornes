@@ -23,7 +23,7 @@ public class Coup {
 	}
 	
 	public boolean estValide(Joueur j) {
-		if (carte instanceof Attaque || carte instanceof DebutLimite)
+		if (carte.getClass() == Attaque.class || carte.getClass() ==  DebutLimite.class)
 			return !j.equals(cible);
 		else return true;
 	}

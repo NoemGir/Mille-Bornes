@@ -1,26 +1,30 @@
 package cartes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import jeu.Joueur;
 
 public class Attaque extends Bataille {
 
+	private static Map<Type,String> nomCartes = new HashMap<>();
 
 	public Attaque(int nombre, Type type) {
 		super(nombre, type);
 	}
+	
+	static {
+		nomCartes.put(Type.ACCIDENT, "Accident");
+		nomCartes.put(Type.CREVAISON, "Crevaison");
+		nomCartes.put(Type.ESSENCE, "Panne d'essence");
+		nomCartes.put(Type.FEU, "FeuRouge");
+	}
 
 	@Override
 	public String toString() {
-		switch (getType()) {
-		case ACCIDENT : return "Accident";
-		case CREVAISON : return "Crevaison";
-		case ESSENCE : return "Panne d'essence";
-		case FEU : return "FeuRouge";
-		default : return "";
-		}
+		return nomCartes.get(getType());
 	}
 	
 	@Override

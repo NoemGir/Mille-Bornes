@@ -72,11 +72,8 @@ public class Sabot<T extends Carte> implements Iterable<T>{
 		while( i < carte.getNombre()) {
 			ajouterCarte(carte);
 			i++;
-			
 		}
-
 	}
-	
 	
 	public void ajouterFamilleCarte(T...cartes) {
 		int i = 0;

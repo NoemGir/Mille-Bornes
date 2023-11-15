@@ -1,23 +1,39 @@
 package jeu;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import cartes.Carte;
+import cartes.JeuDeCarte;
+import utils.Utils;
 
-public class Jeu {
+public class Jeu implements Iterable<Carte>{
 	
 	private Set<Joueur> joueurs;
-	private List<Carte> sabot;
+	private JeuDeCarte jeu;
+	private Sabot<Carte> sabot;
 	
-	public Jeu() {
-		joueurs = new HashSet<>();
-		sabot = new ArrayList<>();
+	public Jeu(Carte[] typesDeCartes) {
+		
+		joueurs = new LinkedHashSet<>();
+		jeu = new JeuDeCarte(typesDeCartes);
 	}
 	
-	public void s_inscrire(Joueur joueur) {
+	public void distribuerCartes() {
+		List<Carte> cartes = jeu.getListeCartes();
+		
+		for(Joueur joueur : joueurs ) {
+			for(int i = 0; i < 6; i++) {
+				joueur.donner(cartes.get(0));
+				cartes.remove(0);
+			}
+		}
+		sabot = new Sabot<>(cartes.size(),(Carte[]) cartes.toArray());
+	}
+	
+	public void inscrire(Joueur joueur) {
 		joueurs.add(joueur);
 		joueur.setJeu(this);
 	}
@@ -30,11 +46,16 @@ public class Jeu {
 		this.joueurs = joueurs;
 	}
 
-	public List<Carte> getSabot() {
+	public Sabot<Carte> getSabot() {
 		return sabot;
 	}
 
-	public void setSabot(List<Carte> sabot) {
+	public void setSabot(Sabot<Carte> sabot) {
 		this.sabot = sabot;
+	}
+
+	@Override
+	public Iterator<Carte> iterator() {
+		return sabot.iterator();
 	}
 }

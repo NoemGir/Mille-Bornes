@@ -11,11 +11,11 @@ public class JeuDeCarte {
 
 		private List<Carte> listeCartes;
 		
-		
-		
 		public JeuDeCarte(Carte[] typesDeCartes) {
+		
 			this.typesDeCartes = typesDeCartes;
 			List<Carte> listeCartesOrdre = new ArrayList<Carte>();
+			
 			for(int i = 0;  i < typesDeCartes.length; i++) {
 				Carte carte = typesDeCartes[i];
 				for(int j = 0; j < carte.getNombre(); j++ ) {

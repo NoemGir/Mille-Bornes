@@ -13,13 +13,33 @@ import cartes.FinLimite;
 import cartes.Parade;
 import cartes.Probleme;
 import cartes.Type;
+import jeu.Coup;
+import jeu.Jeu;
 import jeu.Joueur;
 
 public class test {
 	public static void main(String[] args) {
 		
-		/* TP4 */
+		/* TP5 */
 		
+		 Carte[] typesDeCartes = {new Botte(1, Type.FEU), new Botte(1, Type.ESSENCE), new Botte(1, Type.CREVAISON), new Botte(1, Type.ACCIDENT),
+					new Attaque(5, Type.FEU), new DebutLimite(4), new Attaque(3, Type.ESSENCE), new Attaque(3, Type.CREVAISON), new Attaque(3, Type.ACCIDENT),
+					new Parade(14, Type.FEU), new FinLimite(6), new Parade(6, Type.ESSENCE), new Parade(6, Type.CREVAISON), new Parade(6, Type.ACCIDENT),
+					new Borne(10, 25), new Borne(10, 50), new Borne(10, 75), new Borne(12, 100), new Borne(4, 200)};
+			
+		
+		Jeu jeu = new Jeu(typesDeCartes);
+		Joueur rene = new Joueur ("René");
+		Joueur albert = new Joueur ("Albert");
+		jeu.inscrire(albert);
+		jeu.inscrire(rene);
+		jeu.distribuerCartes();
+		
+		
+		
+		/* TP4
+		System.out.println("TEST fonction appliquer");
+
 		Joueur j = new Joueur("J");
 		Carte c1 = new Parade(0,Type.FEU);
 		System.out.println("appliquer "+c1+":"+c1.appliquer(j));
@@ -42,6 +62,7 @@ public class test {
 		Carte c8 = new Parade(0,Type.ESSENCE);
 		System.out.println("appliquer "+c8+":"+c8.appliquer(j));
 		
+
 		
 		/* TP3 
 		System.out.println("--TEST getKM()--");

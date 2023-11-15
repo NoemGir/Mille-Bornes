@@ -1,25 +1,30 @@
 package cartes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import jeu.Joueur;
 
 public class Botte extends Probleme {
+	
+	private static Map<Type,String> nomCartes = new HashMap<>();
 
 	public Botte(int nombre, Type type) {
 		super(nombre, type);
 	}
 	
+	static {
+		nomCartes.put(Type.ACCIDENT, "As du volant");
+		nomCartes.put(Type.CREVAISON, "Increvable");
+		nomCartes.put(Type.ESSENCE, "Essence");
+		nomCartes.put(Type.FEU, "Priorité");
+	}
+	
 	@Override
 	public String toString() {
-		switch (getType()) {
-		case ACCIDENT : return "As du volant";
-		case CREVAISON : return "Increvable";
-		case ESSENCE : return "Citerne d'essence";
-		case FEU : return "Vehicule Prioritaire";
-		default : return "";
-		}
+		return nomCartes.get(getType());
 	}
 	
 	@Override
