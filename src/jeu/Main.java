@@ -1,13 +1,8 @@
 package jeu;
 
-import java.util.Iterator;
-import java.util.List;
-
 import cartes.Carte;
 
-public interface Main{
-	
-    Iterator<Carte> iterateur();
+public interface Main extends Iterable<Carte>{
 	
 	void prendre(Carte carte);
 	

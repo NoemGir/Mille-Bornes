@@ -16,5 +16,4 @@ public abstract class Carte {
 	
 	public abstract boolean appliquer(Joueur j);
 
-
 }

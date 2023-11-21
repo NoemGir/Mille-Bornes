@@ -30,8 +30,8 @@ public class DebutLimite extends Limite {
 				listeLimite.add(this);
 				return true;
 			}
-			Limite top = listeLimite.get(listeLimite.size());
-			if (top instanceof FinLimite) {
+			Limite top = listeLimite.get(listeLimite.size()-1);
+			if (top.getClass() == FinLimite.class) {
 				listeLimite.add(this);
 				return true;
 			}

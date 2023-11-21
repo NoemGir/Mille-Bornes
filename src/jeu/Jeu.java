@@ -1,9 +1,13 @@
 package jeu;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.NavigableSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import cartes.Carte;
 import cartes.JeuDeCarte;
@@ -13,7 +17,7 @@ public class Jeu implements Iterable<Carte>{
 	
 	private Set<Joueur> joueurs;
 	private JeuDeCarte jeu;
-	private Sabot<Carte> sabot;
+	private List<Carte> sabot;
 	
 	public Jeu(Carte[] typesDeCartes) {
 		
@@ -30,12 +34,75 @@ public class Jeu implements Iterable<Carte>{
 				cartes.remove(0);
 			}
 		}
-		sabot = new Sabot<>(cartes.size(),(Carte[]) cartes.toArray());
+		sabot = new ArrayList<>(cartes);
 	}
 	
 	public void inscrire(Joueur joueur) {
 		joueurs.add(joueur);
 		joueur.setJeu(this);
+	}
+	
+	public void lancer() {
+		boolean termine = false;
+		distribuerCartes();
+		for (Joueur joueur : joueurs) {
+			System.out.println(joueur + ":" + joueur.getMain().toString());
+		}
+		
+		while(!(termine || sabot.isEmpty())){
+			
+			for(Joueur joueur : joueurs) {
+
+				Carte carte = joueur.prendreCarte(sabot);
+				System.out.println("Le joueur " +  joueur + " prend la carte " + carte);
+
+				System.out.println("sa main : " +  joueur.getMain().toString());
+				System.out.println("ses coups : " + joueur.coupsPossibles(joueurs));
+				Coup coup = joueur.selectionner();
+				if(coup == null) {
+					joueur.rendreCarte();
+				}
+				else {
+					if (joueur.getKM() == 1000) {
+						termine = true;
+						break;
+					}
+				}
+			}
+		}
+		if(sabot.isEmpty()) {
+			System.out.println("Le sabot est vide");
+		}
+		NavigableSet<Joueur> resultat = obtenir_resultat();
+		Iterator<Joueur> it = resultat.iterator();
+		Joueur gagnant = it.next();
+		System.out.println("Le jeu est termine. " + gagnant + " a gagne en parcourant "+ gagnant.getKM()+ " km ! ");
+		
+		System.out.println("Classement des autres joueurs : ");
+		for(;it.hasNext();) {
+			Joueur suivant = it.next();
+			System.out.println(suivant + " avec " + suivant.getKM()+ " km");
+		}
+		
+	}
+	
+	public NavigableSet<Joueur> obtenir_resultat(){
+		NavigableSet<Joueur> joueurTries =
+				new TreeSet<>(
+						new Comparator<Joueur>() {
+							public int compare(Joueur j1, Joueur j2) {
+								Integer kmJ1 = j1.getKM();
+								Integer kmJ2 = j2.getKM();
+								int comparaison = -kmJ1.compareTo(kmJ2);
+								if(comparaison == 0) {
+									comparaison = j1.getNom().compareTo(j2.getNom());
+								}
+								return comparaison;
+							}
+						}
+					);
+		joueurTries.addAll(joueurs);
+		return joueurTries;
 	}
 
 	public Set<Joueur> getJoueurs() {
@@ -46,11 +113,11 @@ public class Jeu implements Iterable<Carte>{
 		this.joueurs = joueurs;
 	}
 
-	public Sabot<Carte> getSabot() {
+	public List<Carte> getSabot() {
 		return sabot;
 	}
 
-	public void setSabot(Sabot<Carte> sabot) {
+	public void setSabot(List<Carte> sabot) {
 		this.sabot = sabot;
 	}
 

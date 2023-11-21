@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import cartes.Attaque;
 import cartes.Bataille;
 import cartes.Borne;
 import cartes.Botte;
@@ -17,7 +16,7 @@ import cartes.Limite;
 import cartes.Parade;
 import cartes.Type;
 
-public class Joueur {
+public class Joueur implements Comparable<Joueur>{
 	private String nom;
 	private List<Limite> pileLimite;
 	private List<Bataille> pileBataille;
@@ -36,22 +35,6 @@ public class Joueur {
 		bottes = new HashSet<>();
 	}
 	
-	public void jouer(Carte carte) {
-		main.jouer(carte);
-		if (carte instanceof Bataille) {
-			pileBataille.add((Bataille) carte);
-		}
-		else if (carte instanceof Limite) {
-			pileLimite.add((Limite) carte);
-		}
-		else if (carte instanceof Borne) {
-			collecBorne.add((Borne) carte);
-		}
-		else if (carte instanceof Botte) {
-			bottes.add((Botte) carte);
-		}
-	}
-	
 	public void donner(Carte carte) {
 		main.prendre(carte);
 	}
@@ -59,7 +42,7 @@ public class Joueur {
 	public Carte prendreCarte(List<Carte> sabot) {
 		if(sabot.isEmpty()) return null;
 		Carte carte = sabot.get(sabot.size()-1);
-		sabot.remove(carte);
+		sabot.remove(sabot.size()-1);
 		main.prendre(carte);
 		return carte;
 	}
@@ -85,30 +68,16 @@ public class Joueur {
 	} 
 	
 	public boolean estBloque() {
-		boolean prioritaire = false;
-		boolean protege_botte = false;
-
-		prioritaire = bottes.contains(new Botte(1, Type.FEU));
-
-		Bataille sommetBataille = pileBataille.get(pileBataille.size()-1);
-	    if(sommetBataille.equals(new Parade(1, Type.FEU))) {
+		
+		if(pileBataille.isEmpty()) {
 			return false;
 		}
-		else if(prioritaire) {
-			
-			if(pileBataille.isEmpty()) {
-				return false;
-			}
-			else if(sommetBataille instanceof Parade ) {
-				return false;
-			}
-			else if(sommetBataille.equals(new Attaque(1, Type.FEU))) {
-				return false;
-			}
+		Bataille sommetBataille = pileBataille.get(pileBataille.size()-1);
+	    if(sommetBataille.getClass() == Parade.class) {
+			return false;
 		}
-		protege_botte = bottes.contains(new Botte(0, sommetBataille.getType()));
+		return !bottes.contains(new Botte(0, sommetBataille.getType()));
 
-	    return !protege_botte;
 	}
 	
 	public MainAsList getMain() {
@@ -125,6 +94,7 @@ public class Joueur {
 		return nom.hashCode();
 	}
 	
+	
 	@Override
 	public String toString() {
 		return nom;
@@ -133,9 +103,8 @@ public class Joueur {
 	public Set<Coup> coupsPossibles(Set<Joueur> participants) {
 		Set<Coup> coupsPossibles = new HashSet<>();
 		for(Joueur participant : participants) {
-			Iterator<Carte> it = main.iterateur();
-			for(;it.hasNext();) {
-				Coup coupPotentiel = new Coup(it.next(), participant);
+			for(Carte carte : main) {
+				Coup coupPotentiel = new Coup(carte, participant);
 				if(coupPotentiel.estValide(this)) {
 					coupsPossibles.add(coupPotentiel);
 				}
@@ -145,32 +114,29 @@ public class Joueur {
 	}
 	
 	public Set<Coup> coupsParDefault(){
-		Set<Coup> coupsDefaults= new HashSet<>();
-		Iterator<Carte> it = main.iterateur();
-		for(;it.hasNext();) {
-			Carte carte = it.next();
-			if(carte instanceof Parade || carte instanceof Botte || carte instanceof Borne) {
-				Coup coup = new Coup(carte, null);
-				coupsDefaults.add(coup);
-			}
-		}
+		Set<Coup> coupsDefaults = new HashSet<>();
+		for(Carte carte : main)
+			coupsDefaults.add(new Coup(carte, null));
 		return coupsDefaults;
 	}
 	
 	public Coup selectionner() {
-		Set<Coup> coupsPossibles = coupsPossibles(jeu.getJoueurs());
-		for(Coup coup : coupsPossibles) {
-			if (coup.jouer(this)) {
-				return coup;
+		Set<Coup> coupsPossibles = this.coupsPossibles(jeu.getJoueurs());
+		Iterator<Coup> it = coupsPossibles.iterator();
+		for (; it.hasNext();) {
+			Coup next = it.next();
+			if (next.jouer(this)) {
+				return next;
 			}
 		}
 		return null;
 	}
 	
 	public Coup rendreCarte() {
-		Set<Coup> coupsdefaults = coupsParDefault();
+		Set<Coup> coupsdefaults = this.coupsParDefault();
 		for(Coup coup : coupsdefaults) {
 			if (coup.jouer(this)) {
+				main.jouer(coup.getCarte());
 				return coup;
 			}
 		}
@@ -213,7 +179,17 @@ public class Joueur {
 	public void setJeu(Jeu jeu) {
 		this.jeu = jeu;
 	}
-	
-	
 
+	public String getNom() {
+		return nom;
+	}
+
+	@Override
+	public int compareTo(Joueur o) {
+		int comparaison = this.getKM() - o.getKM();
+		if(comparaison == 0) {
+			comparaison = 1;
+		}
+		return comparaison;
+	}
 }

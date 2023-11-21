@@ -3,6 +3,7 @@ package jeu;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import cartes.Carte;
 
@@ -13,11 +14,6 @@ public class MainAsList implements Main {
 
 	public MainAsList() {
 		main = new ArrayList<>();
-	}
-	
-	@Override
-    public Iterator<Carte> iterateur(){
-		return main.listIterator();
 	}
 
 
@@ -31,5 +27,15 @@ public class MainAsList implements Main {
 	public void jouer(Carte carte) {
 		assert(main.contains(carte));
 		main.remove(carte);
+	}
+	
+	@Override
+	public String toString() {
+		return main.toString();
+	}
+
+	@Override
+	public Iterator<Carte> iterator() {
+		return main.iterator();
 	}
 }

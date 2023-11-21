@@ -1,9 +1,5 @@
 package testsFonctionnels;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import cartes.Attaque;
 import cartes.Borne;
 import cartes.Botte;
@@ -11,11 +7,13 @@ import cartes.Carte;
 import cartes.DebutLimite;
 import cartes.FinLimite;
 import cartes.Parade;
-import cartes.Probleme;
 import cartes.Type;
-import jeu.Coup;
+import jeu.Attaquant;
+import jeu.Experimente;
 import jeu.Jeu;
 import jeu.Joueur;
+import jeu.JoueurChanceux;
+import jeu.Presse;
 
 public class test {
 	public static void main(String[] args) {
@@ -29,13 +27,17 @@ public class test {
 			
 		
 		Jeu jeu = new Jeu(typesDeCartes);
-		Joueur rene = new Joueur ("René");
-		Joueur albert = new Joueur ("Albert");
-		jeu.inscrire(albert);
-		jeu.inscrire(rene);
-		jeu.distribuerCartes();
+		Joueur rene = new Joueur ("J1");
+		Joueur albert = new Joueur ("J2");
+		JoueurChanceux gerard = new JoueurChanceux("JoueurChanceux");
+		Attaquant bernard = new Attaquant("Attaquant");
+		Presse poulard = new Presse("Presse");
+		Experimente moi = new Experimente("Experimente");
+		jeu.inscrire(bernard);
+		jeu.inscrire(poulard);
+		jeu.inscrire(moi);
 		
-		
+		jeu.lancer();
 		
 		/* TP4
 		System.out.println("TEST fonction appliquer");

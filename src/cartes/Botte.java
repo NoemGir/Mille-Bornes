@@ -18,8 +18,8 @@ public class Botte extends Probleme {
 	static {
 		nomCartes.put(Type.ACCIDENT, "As du volant");
 		nomCartes.put(Type.CREVAISON, "Increvable");
-		nomCartes.put(Type.ESSENCE, "Essence");
-		nomCartes.put(Type.FEU, "Priorité");
+		nomCartes.put(Type.ESSENCE, "Citerne");
+		nomCartes.put(Type.FEU, "Prioritaire");
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public class Botte extends Probleme {
 	
 	@Override
 	public int hashCode() {
-			return getType().hashCode();
+			return getType().hashCode()*13;
 	} 
 
 

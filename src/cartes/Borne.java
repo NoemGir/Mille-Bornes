@@ -5,7 +5,7 @@ import java.util.Set;
 
 import jeu.Joueur;
 
-public class Borne extends Carte {
+public class Borne extends Carte implements Comparable<Borne>{
 private int km;
 
 	public Borne(int nombre, int km) {
@@ -43,20 +43,21 @@ private int km;
 
 	@Override
 	public boolean appliquer(Joueur j) {
-		List<Limite> limites = j.getPileLimite();
-		
-		if(!j.estBloque() && j.getKM()+ km <= 1000){
-			if(limites.isEmpty()) {
-				j.getCollecBorne().add(this);
-				return true;
-			}
-			Limite sommetLimite = limites.get(limites.size()-1);
-			if (sommetLimite instanceof DebutLimite) {
-				j.getCollecBorne().add(this);
-				return true;
-			}		
+		if(!j.estBloque() && j.getKM()+ km <= 1000 && km <= j.getLimite()){
+			j.getCollecBorne().add(this);
+			return true;
 		}
 		return false;
 	}
 
+
+
+	@Override
+	public int compareTo(Borne o) {
+		int comparaison = km - o.km;
+		if (comparaison == 0) {
+			comparaison = 1;
+		}
+		return comparaison;
+	}
 }

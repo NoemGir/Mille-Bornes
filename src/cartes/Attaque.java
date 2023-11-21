@@ -39,8 +39,15 @@ public class Attaque extends Bataille {
 	@Override
 	public boolean appliquer(Joueur j) {
 		Set<Botte> bottes = j.getBottes();
+		List<Bataille> listeBataille = j.getPileBataille();
 		if (bottes.contains(new Botte(1,this.getType()))) {
 			return false;
+		}
+		if(!listeBataille.isEmpty()) {
+			Bataille top = listeBataille.get(listeBataille.size()-1);
+			if(top.getClass() == Attaque.class && !bottes.contains(new Botte(0, top.getType()))) {
+				return false;
+			}
 		}
 		j.getPileBataille().add(this);
 		return true;
